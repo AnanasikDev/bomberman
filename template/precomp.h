@@ -406,6 +406,7 @@ public:
 	virtual void KeyUp( int key ) = 0;
 	virtual void KeyDown( int key ) = 0;
 	Surface* screen = 0;
+	Surface* logicscreen = 0;
 };
 
 // EOF

@@ -7,8 +7,6 @@ SpriteSheet::SpriteSheet(Array<Surface> surfaces) : surfaces(surfaces) {
 	for (int i = 0; i < length; i++) {
 		sprites[i] = new Sprite(&this->surfaces[i], 1);
 	}
-	printf("surfaces l : %d\n", surfaces.GetLength());
-	printf("sprites  l : %d\n", sprites .GetLength());
 }
 
 Surface SpriteSheet::GetSurfaceWithID(int id) const {

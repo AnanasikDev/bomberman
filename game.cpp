@@ -44,26 +44,24 @@ void Game::Init()
 	IntArray tileIDs(SPRITE_SHEET_WIDTH * SPRITE_SHEET_HEIGHT, ids);
 
 	sheet = SpriteSheet(Surface::FromSpriteSheet("assets/bomberman/spritesheet.png", TILE_WIDTH, SPRITE_SHEET_WIDTH, SPRITE_SHEET_HEIGHT, tileIDs));
-	//gameobjects[0]->sprite->SetSurface(&r[0]);
-	//AddGameobject(new Gameobject(new Sprite(new Surface("assets/examples/ball.png"), 1), 30, 10));
-	//AddGameobject(new Gameobject(new Sprite(&r[1], 1), 30, 10));
-
 	for (int l = 1; l < map.layers.GetLength(); l++) {
 		for (int t = 0; t < map.layers[l].tiles.GetLength(); t++) {
 			int2 pos = map.GetCoordinateByIndex(t);
-			//printf("%d, ", map.layers[l].tiles[t]);
 			int id = map.layers[l].tiles[t];
-			
 			if (id == 0) continue;
-
-			printf("%d, ", sheet.GetSpriteWithID(id));
-			//sheet.GetSpriteWithID(t);
 			Gameobject* go = new Gameobject(sheet.GetSpriteWithID(id), pos);
 			AddGameobject(go);
-			//break;
 		}
-		printf("\n");
 	}
+
+	logicscreen->Clear(BACKGROUND_COLOR);
+
+	for (int i = 0; i < gameobjectsCount; i++) {
+		gameobjects[i]->Render(logicscreen, gameobjects[i]->position.x, gameobjects[i]->position.y);
+	}
+
+	logicscreen->EnlargeAndCopyTo(screen, 2);
+	//screen->Clear(0x00ff00);
 }
 
 // -----------------------------------------------------------
@@ -71,7 +69,7 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick( float deltaTime )
 {
-	screen->Clear(0xAAFFCF);
+	/*screen->Clear(BACKGROUND_COLOR);
 	for (int i = 0; i < gameobjectsCount; i++){
 		gameobjects[i]->Tick(deltaTime);
 	}
@@ -79,4 +77,6 @@ void Game::Tick( float deltaTime )
 	for (int i = 0; i < gameobjectsCount; i++) {
 		gameobjects[i]->Render(screen, gameobjects[i]->position.x, gameobjects[i]->position.y);
 	}
+
+	screen = &screen->Enlarge(4);*/
 }

@@ -56,6 +56,14 @@ public:
 	Surface( int w, int h, uint* buffer );
 	Surface( int w, int h );
 	Surface( const char* file );
+	Surface& operator=(const Surface& other) {
+		if (this != &other) {
+			this->pixels = other.pixels;
+			this->width = other.width;
+			this->height = other.height;
+		}
+		return *this;
+	}
 	~Surface();
 	// operations
 	void InitCharset();
@@ -78,6 +86,7 @@ public:
 	static inline bool fontInitialized = false;
 
 	static Array<Surface> FromSpriteSheet(const char* filename, int tilesize, int wcount, int hcount, IntArray ids);
+	void EnlargeAndCopyTo(Surface* target, int factor) const;
 };
 
 // 8-bit (paletized) surface container

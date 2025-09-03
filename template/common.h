@@ -10,6 +10,9 @@
 // default screen resolution
 #define SCRWIDTH	1280
 #define SCRHEIGHT	720
+
+#define LOGICSCRWIDTH	496
+#define LOGICSCRHEIGHT	208
 // #define FULLSCREEN
 
 // constants

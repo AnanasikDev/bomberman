@@ -8,4 +8,5 @@ namespace Tmpl8 {
 	constexpr int TILE_HEIGHT = 16;
 	constexpr int SPRITE_SHEET_WIDTH = 14;
 	constexpr int SPRITE_SHEET_HEIGHT = 24;
+	constexpr uint BACKGROUND_COLOR = 0x388700;
 }

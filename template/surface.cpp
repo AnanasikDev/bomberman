@@ -31,6 +31,7 @@ Surface::Surface( const char* file ) : pixels( 0 ), width( 0 ), height( 0 )
 	Surface::LoadFromFile( file );
 }
 
+
 void Surface::LoadFromFile( const char* file )
 {
 	// use stb_image to load the image file
@@ -282,4 +283,20 @@ void Surface::InitCharset()
 	int i;
 	for (i = 0; i < 256; i++) transl[i] = 45;
 	for (i = 0; i < 50; i++) transl[(unsigned char)c[i]] = i;
+}
+
+void Surface::EnlargeAndCopyTo(Surface* target, int factor) const {
+	for (int ready = 0; ready < height; ready++) {
+		for (int readx = 0; readx < width; readx++) {
+			int readindex = readx + ready * width;
+			//target->pixels[readindex] = pixels[readindex];
+
+			for (int writey = ready * factor; writey < (ready + 1) * factor; writey++) {
+				for (int writex = readx * factor; writex < (readx + 1) * factor; writex++) {
+					int writeindex = writex + writey * target->width;
+					target->pixels[writeindex] = pixels[readindex];
+				}
+			}
+		}
+	}
 }
