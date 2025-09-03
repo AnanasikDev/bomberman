@@ -1,0 +1,59 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "untitled.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "NES - Bomberman - Backgrounds - Playfield.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "NES - Bomberman - Miscellaneous - General Sprites.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "NES - Bomberman - Miscellaneous - Title Screen & Text.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 272,
+                "y": 108.5
+            }
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/Zephyr/Downloads",
+    "last.imagePath": "C:/Users/Zephyr/Downloads",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "untitled.tmx",
+        "NES - Bomberman - Miscellaneous - General Sprites.tsx",
+        "NES - Bomberman - Miscellaneous - Title Screen & Text.tsx"
+    ],
+    "project": "test.tiled-project",
+    "recentFiles": [
+        "NES - Bomberman - Miscellaneous - Title Screen & Text.tsx",
+        "NES - Bomberman - Miscellaneous - General Sprites.tsx",
+        "untitled.tmx",
+        "NES - Bomberman - Backgrounds - Playfield.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}
