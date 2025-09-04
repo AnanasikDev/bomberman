@@ -18,18 +18,47 @@ void Player::Tick(float deltaTime) {
 
 	//context->logicscreen->Box(newPosition.x - 5, newPosition.y - 5, newPosition.x + 5, newPosition.y + 5, 0xFF0000);
 
-	int2 tilepos = GetTilePosition() * TILE_WIDTH;
+	int2 tilepos = GetTilePosition();// *int2(TILE_WIDTH, TILE_HEIGHT);
 	printf("%d, %d\n", tilepos.x, tilepos.y);
 
 	context->logicscreen->Box(tilepos.x - 8, tilepos.y - 8, tilepos.x + 8, tilepos.y + 8, 0xFF0000);
 
 	int2 nextTile = position + int2(delta.x * TILE_WIDTH / 2, delta.y * TILE_HEIGHT / 2);
 
-	/*for (int x = -1; x < 2; x++) {
+	for (int x = -1; x < 2; x++) {
 		for (int y = -1; y < 2; y++) {
-			if (tilepos.x + x)
+			if (!Map::IsGridPosOnMap(int2(tilepos.x + x, tilepos.y + y))) {
+				continue;
+			}
+
+			uint2 otherTile = uint2(
+				tilepos.x + x,
+				tilepos.y + y
+			);
+
+			if (context->map.layers[0].GetTileIDAtGridPosition(otherTile) == 0) {
+				continue;
+			}
+
+			{
+				int2 _tp = int2(otherTile.x, otherTile.y) * int2(TILE_WIDTH, TILE_HEIGHT);
+				context->logicscreen->Box(_tp.x, _tp.y, _tp.x + 16, _tp.y + 16, 0xFF0000);
+			}
+
+
+			bool intersect = box.Intersects(
+				AABB::FromCenterAndSize(
+					Map::GridToWorld(otherTile), 
+					int2(TILE_WIDTH, TILE_HEIGHT)
+				)
+			);
+
+			if (intersect) {
+				return;
+			}
+
 		}
-	}*/
+	}
 
 	/*if (context->map.layers[0].GetTileIDAtPosition(
 		uint2(

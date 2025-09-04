@@ -16,7 +16,7 @@ namespace Tmpl8 {
 		Layer(const char* name, IntArray tiles);
 
 		int GetTileIDAtIndex(int index) const;
-		int GetTileIDAtPosition(uint2 pos) const;
+		int GetTileIDAtGridPosition(uint2 pos) const;
 	};
 
 	class Map {
@@ -35,6 +35,7 @@ namespace Tmpl8 {
 		static int2 GetGridCoordinateByIndex(int index);
 		static int GetIndexByGridCoordinate(uint2 pos);
 		static int2 GridToWorld(int2 grid);
+		static int2 GridToWorld(uint2 grid);
 		static int2 WorldToGrid(int2 world);
 		static bool IsGridPosOnMap(int2 pos);
 	};

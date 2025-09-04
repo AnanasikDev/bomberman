@@ -1120,6 +1120,8 @@ struct AABB {
 	static AABB FromCenterAndSize(int2 center, int size);
 
 	static bool Contains(int2 min, int2 max, int2 pos);
+	static bool Intersects(int2 min1, int2 max1, int2 min2, int2 max2);
+	static bool Intersects(const AABB& a, const AABB& b);
 
 	bool Contains(int2 point) const;
 	bool Intersects(const AABB& other) const;

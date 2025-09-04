@@ -11,7 +11,7 @@ namespace Tmpl8 {
 		return tiles[index];
 	}
 
-	int Layer::GetTileIDAtPosition(uint2 position) const {
+	int Layer::GetTileIDAtGridPosition(uint2 position) const {
 		return GetTileIDAtIndex(Map::GetIndexByGridCoordinate(position));
 	}
 
@@ -167,6 +167,10 @@ namespace Tmpl8 {
 	}
 
 	int2 Map::GridToWorld(int2 grid) {
+		return int2(grid.x * TILE_WIDTH, grid.y * TILE_HEIGHT);
+	}
+
+	int2 Map::GridToWorld(uint2 grid) {
 		return int2(grid.x * TILE_WIDTH, grid.y * TILE_HEIGHT);
 	}
 

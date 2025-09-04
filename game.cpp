@@ -64,7 +64,7 @@ void Game::Init()
 	//arr[0] = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
 	players = Array<UniquePtr<Player>>(NUM_PLAYERS);
 	for (int p = 0; p < NUM_PLAYERS; p++) {
-		Player* player = new Player(this, sheet.GetSpriteWithID(0), int2(24, 24), MAX_LIVES);
+		Player* player = new Player(this, sheet.GetSpriteWithID(0), int2(40, 40), MAX_LIVES);
 		players[p] = player;
 		player->InitControls(KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::A);
 		AddGameobject(player);

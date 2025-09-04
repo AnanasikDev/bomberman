@@ -309,3 +309,12 @@ AABB AABB::FromCenterAndSize(int2 center, int size) {
 bool AABB::Contains(int2 min, int2 max, int2 pos) {
 	return AABB(min, max).Contains(pos);
 }
+
+bool AABB::Intersects(const AABB& a, const AABB& b) {
+	return a.Intersects(b);
+}
+
+bool AABB::Intersects(int2 min1, int2 max1, int2 min2, int2 max2) {
+	return AABB(min1, max1).Intersects(AABB(min2, max2));
+}
+
