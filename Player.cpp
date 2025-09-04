@@ -4,23 +4,45 @@
 #include "Input.h"
 #include "Player.h"
 
-Player::Player(Sprite* sprite, int2 position, int lives) : Gameobject(sprite, position), lives(lives) {
+Player::Player(Sprite* sprite, int2 position, int lives) : Gameobject(sprite, position), lives(lives), prevInput(0, 0) {
 }
 
-Player::Player(const Player& other) : Gameobject(other) {
-	lives = other.lives;
+Player::Player(const Player& other) : Gameobject(other), lives(other.lives), prevInput(0, 0) {
 }
 
 void Player::Tick(float deltaTime) {
 	Gameobject::Tick(deltaTime);
-	/*if (Input::IsKeyDown(KeyCode::W)) {
-		printf("W\n");
-	}
-	else {
-		printf("no input\n");
-	}*/
+	int2 delta = GetMovement();
+	position += delta;
+	printf("%d, %d\n", delta.x, delta.y);
 }
 
 void Player::Render(Surface* surface, int x, int y) {
 	Gameobject::Render(surface, x, y);
+}
+
+int2 Player::GetMovement() {
+	int2 prevDelta = deltaPosition;
+	int2 raw(0, 0);
+	if (Input::IsKeyDown(keyUp))	raw.y = -1;
+	if (Input::IsKeyDown(keyDown))	raw.y = 1;
+	if (Input::IsKeyDown(keyRight)) raw.x = 1;
+	if (Input::IsKeyDown(keyLeft))	raw.x = -1;
+
+	int2 result;
+
+	if (raw.x * raw.y == 0) result = raw;
+	else if (raw.x == raw.x && raw.y != raw.y) result = int2(0, raw.y);
+	else if (raw.x != raw.x && raw.y == raw.y) result = int2(raw.x, 0);
+	else result = int2(0, raw.y);
+
+	prevInput = raw;
+	return result;
+}
+
+void Player::InitControls(KeyCode up, KeyCode down, KeyCode right, KeyCode left) {
+	this->keyUp = up;
+	this->keyDown = down;
+	this->keyRight = right;
+	this->keyLeft = left;
 }

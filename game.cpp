@@ -67,6 +67,7 @@ void Game::Init()
 	for (int p = 0; p < NUM_PLAYERS; p++) {
 		Player* player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
 		players[p] = player;
+		player->InitControls(KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::A);
 		AddGameobject(player);
 	}
 	//UniquePtr<Player> player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
@@ -93,5 +94,5 @@ void Game::Tick( float deltaTime )
 
 	int2 mp = int2(mousePos.x / 4, mousePos.y / 4);
 
-	logicscreen->EnlargeAndCopyTo(screen, 4, mp.x, mp.y);
+	logicscreen->EnlargeAndCopyTo(screen, 4, 0, 0);
 }

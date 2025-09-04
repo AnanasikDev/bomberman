@@ -139,10 +139,10 @@ int main()
 	// initialize application
 	InitRenderTarget( SCRWIDTH, SCRHEIGHT );
 	Surface* screen = new Surface( SCRWIDTH, SCRHEIGHT );
+	Input::keystates = keystate;
 	app = new Game();
 	app->screen = screen;
 	app->logicscreen = new Surface(LOGICSCRWIDTH, LOGICSCRHEIGHT);
-	//Input::keystates = keystate;
 	app->Init();
 	// done, enter main loop
 #if 0

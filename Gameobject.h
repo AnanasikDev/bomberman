@@ -9,9 +9,13 @@ namespace Tmpl8 {
 
 	class Gameobject
 	{
+	protected:
+		int2 prevPosition;
+
 	public:
 		Sprite* sprite;
 		int2 position;
+		int2 deltaPosition;
 
 		Gameobject() = default;
 		Gameobject(Sprite* sprite, int2 position);
