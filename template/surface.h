@@ -86,7 +86,7 @@ public:
 	static inline bool fontInitialized = false;
 
 	static Array<Surface> FromSpriteSheet(const char* filename, int tilesize, int wcount, int hcount, IntArray ids);
-	void EnlargeAndCopyTo(Surface* target, int factor) const;
+	void EnlargeAndCopyTo(Surface* target, int factor, int offsetx, int offsety) const;
 };
 
 // 8-bit (paletized) surface container

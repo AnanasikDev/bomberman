@@ -60,7 +60,6 @@ void Game::Init()
 		gameobjects[i]->Render(logicscreen, gameobjects[i]->position.x, gameobjects[i]->position.y);
 	}
 
-	logicscreen->EnlargeAndCopyTo(screen, 2);
 	//screen->Clear(0x00ff00);
 }
 
@@ -69,14 +68,17 @@ void Game::Init()
 // -----------------------------------------------------------
 void Game::Tick( float deltaTime )
 {
-	/*screen->Clear(BACKGROUND_COLOR);
+
+	logicscreen->Clear(BACKGROUND_COLOR);
 	for (int i = 0; i < gameobjectsCount; i++){
 		gameobjects[i]->Tick(deltaTime);
 	}
 
 	for (int i = 0; i < gameobjectsCount; i++) {
-		gameobjects[i]->Render(screen, gameobjects[i]->position.x, gameobjects[i]->position.y);
+		gameobjects[i]->Render(logicscreen, gameobjects[i]->position.x, gameobjects[i]->position.y);
 	}
 
-	screen = &screen->Enlarge(4);*/
+	int2 mp = int2(mousePos.x / 4, mousePos.y / 4);
+
+	logicscreen->EnlargeAndCopyTo(screen, 4, mp.x, mp.y);
 }

@@ -285,14 +285,17 @@ void Surface::InitCharset()
 	for (i = 0; i < 50; i++) transl[(unsigned char)c[i]] = i;
 }
 
-void Surface::EnlargeAndCopyTo(Surface* target, int factor) const {
+void Surface::EnlargeAndCopyTo(Surface* target, int factor, int offsetx, int offsety) const {
 	for (int ready = 0; ready < height; ready++) {
 		for (int readx = 0; readx < width; readx++) {
 			int readindex = readx + ready * width;
 			//target->pixels[readindex] = pixels[readindex];
 
-			for (int writey = ready * factor; writey < (ready + 1) * factor; writey++) {
-				for (int writex = readx * factor; writex < (readx + 1) * factor; writex++) {
+			for (int writey = offsety + ready * factor; writey < offsety + (ready + 1) * factor; writey++) {
+				for (int writex = offsetx + readx * factor; writex < offsetx + (readx + 1) * factor; writex++) {
+					
+					if (writey >= target->height || writex >= target->width || writey < 0 || writex < 0) continue;
+					
 					int writeindex = writex + writey * target->width;
 					target->pixels[writeindex] = pixels[readindex];
 				}
