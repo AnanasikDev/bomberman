@@ -4,6 +4,7 @@
 
 #include "precomp.h"
 #include "game.h"
+#include "Input.h"
 
 #pragma comment( linker, "/subsystem:windows /ENTRY:mainCRTStartup" )
 
@@ -141,6 +142,7 @@ int main()
 	app = new Game();
 	app->screen = screen;
 	app->logicscreen = new Surface(LOGICSCRWIDTH, LOGICSCRHEIGHT);
+	//Input::keystates = keystate;
 	app->Init();
 	// done, enter main loop
 #if 0

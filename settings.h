@@ -9,4 +9,6 @@ namespace Tmpl8 {
 	constexpr int SPRITE_SHEET_WIDTH = 14;
 	constexpr int SPRITE_SHEET_HEIGHT = 24;
 	constexpr uint BACKGROUND_COLOR = 0x388700;
+	constexpr int MAX_LIVES = 3;
+	constexpr int NUM_PLAYERS = 1;
 }

@@ -2,15 +2,16 @@
 #include "sprite.h"
 #include "Gameobject.h"
 
-Gameobject::Gameobject(Sprite* sprite, int x, int y) : position(x, y), sprite(sprite) {
-}
-
 Gameobject::Gameobject(Sprite* sprite, int2 pos) : position(pos), sprite(sprite) {
 }
 
 Gameobject::~Gameobject() {
 	printf("Gameobject deleted");
-	if (sprite != nullptr) delete sprite;
+}
+
+Gameobject::Gameobject(const Gameobject& other) {
+	sprite = other.sprite;
+	position = other.position;
 }
 
 void Gameobject::Tick(float deltaTime) {

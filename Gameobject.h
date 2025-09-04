@@ -1,5 +1,7 @@
 #pragma once
 
+//#include "tmpl8math.h"
+
 namespace Tmpl8 {
 
 	class Sprite;
@@ -12,12 +14,20 @@ namespace Tmpl8 {
 		int2 position;
 
 		Gameobject() = default;
-		Gameobject(Sprite* sprite, int x, int y);
 		Gameobject(Sprite* sprite, int2 position);
+		Gameobject(const Gameobject& other);
+
+		Gameobject& operator=(const Gameobject& other) {
+			if (this != &other) {
+				sprite = other.sprite;
+				position = other.position;
+			}
+			return *this;
+		}
 
 		~Gameobject();
 
-		void Tick(float deltaTime);
-		void Render(Surface* surface, int x, int y);
+		virtual void Tick(float deltaTime);
+		virtual void Render(Surface* surface, int x, int y);
 	};
 }

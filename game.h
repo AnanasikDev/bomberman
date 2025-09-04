@@ -6,6 +6,7 @@
 
 #include "Map.h"
 #include "SpriteSheet.h"
+#include "Player.h"
 
 namespace Tmpl8
 {
@@ -33,6 +34,7 @@ public:
 	uint maxGameobjectsCount;
 	Map map;
 	SpriteSheet sheet;
+	Array<UniquePtr<Player>> players;
 
 	void AddGameobject(Gameobject* go);
 	

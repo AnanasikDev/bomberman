@@ -54,11 +54,24 @@ void Game::Init()
 		}
 	}
 
-	logicscreen->Clear(BACKGROUND_COLOR);
+	/*players = */
+	/*for (int p = 0; p < NUM_PLAYERS; p++) {
+		Player player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
+		players[p] = player;
+		AddGameobject(&players[p]);
+	}*/
 
-	for (int i = 0; i < gameobjectsCount; i++) {
-		gameobjects[i]->Render(logicscreen, gameobjects[i]->position.x, gameobjects[i]->position.y);
+	//PtrArray<Player> arr(1);
+	//arr[0] = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
+	players = Array<UniquePtr<Player>>(NUM_PLAYERS);
+	for (int p = 0; p < NUM_PLAYERS; p++) {
+		Player* player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
+		players[p] = player;
+		AddGameobject(player);
 	}
+	//UniquePtr<Player> player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
+
+	//arr[0] = Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
 
 	//screen->Clear(0x00ff00);
 }

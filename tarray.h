@@ -3,11 +3,63 @@
 namespace Tmpl8 {
 
 	template <typename T>
+	class UniquePtr {
+	public:
+		T* ptr;
+
+		UniquePtr(T* in) {
+			ptr = in;
+		}
+
+		UniquePtr() : ptr(nullptr) {
+
+		}
+
+		UniquePtr(const UniquePtr& other) = delete;
+		UniquePtr& operator=(const UniquePtr& other) = delete;
+
+		UniquePtr& operator=(UniquePtr&& other) {
+			if (this != &other) {
+				if (ptr) delete ptr;
+				ptr = other.ptr;
+				other.ptr = nullptr;
+			}
+			return *this;
+		}
+
+		UniquePtr& operator=(T* other) {
+			ptr = other;
+			return *this;
+		}
+
+		UniquePtr(UniquePtr&& other) : ptr(other.ptr) {
+			other.ptr = nullptr;
+		}
+		
+		void Reset() {
+			delete ptr;
+			ptr = nullptr;
+		}
+
+		T& operator*() {
+			return *ptr;
+		}
+
+		T* operator->() {
+			return ptr;
+		}
+
+		~UniquePtr() {
+			delete ptr;
+		}
+	};
+
+	template <typename T>
 	class Array {
+	public:
 		T* items;
 		size_t length;
 
-	public:
 		int counter = 1;
 		Array() : items(nullptr), length(0) { }
 
@@ -60,9 +112,25 @@ namespace Tmpl8 {
 			return length;
 		}
 
-		void Clear() {
+	 	virtual void Clear() {
 			if (length > 0 && items != nullptr) {
 				FREE64(items);
+			}
+			length = 0;
+		}
+	};
+
+	template <typename T>
+	class PtrArray : public Array<T*> {
+	public:
+		PtrArray() : Array() { }
+		PtrArray(size_t length) : Array(length) { }
+		PtrArray(size_t length, T** vals) : Array(length, vals) { }
+		PtrArray(PtrArray& other) : Array(other) { }
+
+		void Clear() override {
+			if (length > 0 && items != nullptr) {
+				delete[] items;
 			}
 			length = 0;
 		}
