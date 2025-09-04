@@ -1,4 +1,5 @@
 #include "precomp.h"
+#include "settings.h"
 #include "sprite.h"
 #include "Gameobject.h"
 
@@ -20,6 +21,10 @@ void Gameobject::Render(Surface* surface, int x, int y) {
 		printf("Cannot render, sprite is null");
 		return;
 	}
-	sprite->Draw(surface, x, y);
+	sprite->Draw(surface, x - sprite->GetWidth() / 2, y - sprite->GetHeight() / 2);
 	//sprite->DrawScaled(x, y, 200, 200, surface);
+}
+
+int2 Gameobject::GetTilePosition() const {
+	return int2(position.x / TILE_WIDTH, position.y / TILE_HEIGHT);
 }

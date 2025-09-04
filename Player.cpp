@@ -16,12 +16,19 @@ void Player::Tick(float deltaTime) {
 	int2 delta = GetMovement();
 	int2 newPosition = position + delta;
 
-	context->logicscreen->Box(newPosition.x - 5, newPosition.y - 5, newPosition.x + 5, newPosition.y + 5, 0xFF0000);
+	//context->logicscreen->Box(newPosition.x - 5, newPosition.y - 5, newPosition.x + 5, newPosition.y + 5, 0xFF0000);
+
+	int2 tilepos = GetTilePosition() * TILE_WIDTH;
+	printf("%d, %d\n", tilepos.x, tilepos.y);
+
+	context->logicscreen->Box(tilepos.x - 8, tilepos.y - 8, tilepos.x + 8, tilepos.y + 8, 0xFF0000);
+
+	int2 nextTile = position + int2(delta.x * TILE_WIDTH / 2, delta.y * TILE_HEIGHT / 2);
 
 	if (context->map.layers[0].GetTileIDAtPosition(
 		uint2(
-			clamp(newPosition.x / TILE_WIDTH, 0, MAP_WIDTH), 
-			clamp(newPosition.y / TILE_HEIGHT, 0, MAP_HEIGHT)
+			clamp(nextTile.x / TILE_WIDTH, 0, MAP_WIDTH), 
+			clamp(nextTile.y / TILE_HEIGHT, 0, MAP_HEIGHT)
 			)
 	) != 0) 
 	{
