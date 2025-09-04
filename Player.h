@@ -16,7 +16,7 @@ namespace Tmpl8 {
 		KeyCode keyRight;
 		KeyCode keyLeft;
 
-		Player(Sprite* sprite, int2 position, int lives);
+		Player(Game* context, Sprite* sprite, int2 position, int lives);
 
 		Player(const Player& other);
 		

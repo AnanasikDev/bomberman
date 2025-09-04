@@ -44,12 +44,12 @@ void Game::Init()
 	IntArray tileIDs(SPRITE_SHEET_WIDTH * SPRITE_SHEET_HEIGHT, ids);
 
 	sheet = SpriteSheet(Surface::FromSpriteSheet("assets/bomberman/spritesheet.png", TILE_WIDTH, SPRITE_SHEET_WIDTH, SPRITE_SHEET_HEIGHT, tileIDs));
-	for (int l = 1; l < map.layers.GetLength(); l++) {
+	for (int l = 0; l < map.layers.GetLength(); l++) {
 		for (int t = 0; t < map.layers[l].tiles.GetLength(); t++) {
 			int2 pos = map.GetCoordinateByIndex(t);
 			int id = map.layers[l].tiles[t];
 			if (id == 0) continue;
-			Gameobject* go = new Gameobject(sheet.GetSpriteWithID(id), pos);
+			Gameobject* go = new Gameobject(this, sheet.GetSpriteWithID(id), pos);
 			AddGameobject(go);
 		}
 	}
@@ -65,7 +65,7 @@ void Game::Init()
 	//arr[0] = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
 	players = Array<UniquePtr<Player>>(NUM_PLAYERS);
 	for (int p = 0; p < NUM_PLAYERS; p++) {
-		Player* player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
+		Player* player = new Player(this, sheet.GetSpriteWithID(0), int2(32, 32), MAX_LIVES);
 		players[p] = player;
 		player->InitControls(KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::A);
 		AddGameobject(player);

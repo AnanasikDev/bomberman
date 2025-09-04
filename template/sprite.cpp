@@ -54,7 +54,7 @@ void Sprite::Draw( Surface* target, int x, int y )
 			for (int i = xs; i < w; i++)
 			{
 				const uint c1 = *(src + i);
-				if (c1 & 0xffffff) *(dest + addr + i) = c1;
+				if (c1 & 0xffffff && c1 != 0xFF00FF) *(dest + addr + i) = c1;
 			}
 			addr += target->width;
 			src += width * numFrames;

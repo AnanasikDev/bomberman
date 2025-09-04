@@ -3,8 +3,9 @@
 #include "sprite.h"
 #include "Input.h"
 #include "Player.h"
+#include "Game.h"
 
-Player::Player(Sprite* sprite, int2 position, int lives) : Gameobject(sprite, position), lives(lives), prevInput(0, 0) {
+Player::Player(Game* context, Sprite* sprite, int2 position, int lives) : Gameobject(context, sprite, position), lives(lives), prevInput(0, 0) {
 }
 
 Player::Player(const Player& other) : Gameobject(other), lives(other.lives), prevInput(0, 0) {
@@ -13,8 +14,21 @@ Player::Player(const Player& other) : Gameobject(other), lives(other.lives), pre
 void Player::Tick(float deltaTime) {
 	Gameobject::Tick(deltaTime);
 	int2 delta = GetMovement();
-	position += delta;
-	printf("%d, %d\n", delta.x, delta.y);
+	int2 newPosition = position + delta;
+
+	context->logicscreen->Box(newPosition.x - 5, newPosition.y - 5, newPosition.x + 5, newPosition.y + 5, 0xFF0000);
+
+	if (context->map.layers[0].GetTileIDAtPosition(
+		uint2(
+			clamp(newPosition.x / TILE_WIDTH, 0, MAP_WIDTH), 
+			clamp(newPosition.y / TILE_HEIGHT, 0, MAP_HEIGHT)
+			)
+	) != 0) 
+	{
+		return;
+	}
+
+	position = newPosition;
 }
 
 void Player::Render(Surface* surface, int x, int y) {

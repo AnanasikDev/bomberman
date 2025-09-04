@@ -14,6 +14,9 @@ namespace Tmpl8 {
 		}
 
 		Layer(const char* name, IntArray tiles);
+
+		int GetTileIDAtIndex(int index) const;
+		int GetTileIDAtPosition(uint2 pos) const;
 	};
 
 	class Map {

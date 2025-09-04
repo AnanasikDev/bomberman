@@ -7,6 +7,14 @@ namespace Tmpl8 {
 		
 	}
 
+	int Layer::GetTileIDAtIndex(int index) const {
+		return tiles[index];
+	}
+
+	int Layer::GetTileIDAtPosition(uint2 position) const {
+		return GetTileIDAtIndex(position.x + position.y * MAP_WIDTH);
+	}
+
 	const char* Map::ReadBetweenAsString(const char* start, const char* end) {
 
 		int length = end - start;
@@ -115,7 +123,7 @@ namespace Tmpl8 {
 
 		cursor = contents;
 
-		for (int l = 0; l < 2; l++){
+		for (int l = 0; l < 1; l++){
 
 			cursor = strstr(cursor, "<layer") + 6;
 			const char* hnamestart = strstr(cursor, "name=") + 5;
