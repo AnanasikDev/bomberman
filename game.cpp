@@ -29,9 +29,6 @@ Game::~Game() {
 void Game::Init()
 {
 	// anything that happens only once at application start goes here
-
-	map.Init(uint2(MAP_WIDTH, MAP_HEIGHT), uint2(TILE_WIDTH, TILE_HEIGHT));
-
 	gameobjects = (Gameobject**)MALLOC64(maxGameobjectsCount * sizeof(Gameobject*));
 
 	map.ReadFromTMX("assets/bomberman/map.tmx");
@@ -46,7 +43,7 @@ void Game::Init()
 	sheet = SpriteSheet(Surface::FromSpriteSheet("assets/bomberman/spritesheet.png", TILE_WIDTH, SPRITE_SHEET_WIDTH, SPRITE_SHEET_HEIGHT, tileIDs));
 	for (int l = 0; l < map.layers.GetLength(); l++) {
 		for (int t = 0; t < map.layers[l].tiles.GetLength(); t++) {
-			int2 pos = map.GetCoordinateByIndex(t);
+			int2 pos = map.GetGridCoordinateByIndex(t);
 			pos.x += TILE_WIDTH / 2;
 			pos.y += TILE_HEIGHT / 2;
 			int id = map.layers[l].tiles[t];

@@ -259,3 +259,53 @@ half float_to_half( const float x )
 	const uint b = as_uint( x ) + 0x00001000, e = (b & 0x7F800000) >> 23, m = b & 0x007FFFFF;
 	return (half)((b & 0x80000000) >> 16 | (e > 112) * ((((e - 112) << 10) & 0x7C00) | m >> 13) | ((e < 113) & (e > 101)) * ((((0x007FF000 + m) >> (125 - e)) + 1) >> 1) | (e > 143) * 0x7FFF); // sign : normalized : denormalized : saturate
 }
+
+bool AABB::Contains(int2 point) const {
+	return point.x >= min.x && point.x < max.x && point.y >= min.y && point.y < max.y;
+}
+
+bool AABB::Intersects(const AABB& other) const {
+	for (int i = 0; i < 4; i++) {
+		if (Contains(other[i]))
+			return true;
+	}
+	return false;
+}
+
+int2 AABB::operator[](int index) const {
+	switch (index) {
+		case 0:
+			return min;
+			break;
+		case 1:
+			return int2(min.x, max.y);
+			break;
+		case 2:
+			return max;
+			break;
+		case 3:
+			return int2(max.x, min.y);
+			break;
+		return int2();
+	}
+}
+
+AABB AABB::FromCenterAndSize(int2 center, int2 size) {
+	return AABB
+	(
+		int2(center.x - size.x / 2, center.y - size.y / 2),
+		int2(center.x + size.x / 2, center.y + size.y / 2)
+	);
+}
+
+AABB AABB::FromCenterAndSize(int2 center, int size) {
+	return AABB
+	(
+		int2(center.x - size / 2, center.y - size / 2),
+		int2(center.x + size / 2, center.y + size / 2)
+	);
+}
+
+bool AABB::Contains(int2 min, int2 max, int2 pos) {
+	return AABB(min, max).Contains(pos);
+}

@@ -1,4 +1,5 @@
 #include "precomp.h"
+#include "tmpl8math.h"
 #include "settings.h"
 #include "sprite.h"
 #include "Gameobject.h"
@@ -7,7 +8,14 @@ Gameobject::~Gameobject() {
 	printf("Gameobject deleted");
 }
 
-Gameobject::Gameobject(const Gameobject& other) : context(other.context), sprite(other.sprite), position(other.position), prevPosition(other.position), deltaPosition(0) {
+Gameobject::Gameobject(Game* context, Sprite* sprite, int2 pos) : context(context), position(pos), sprite(sprite), prevPosition(pos), deltaPosition(0) {
+	/*int2 min = int2(position.x - sprite->GetWidth() / 2, position.y - sprite->GetHeight() / 2);
+	int2 max = int2(position.x + sprite->GetWidth() / 2, position.y + sprite->GetHeight() / 2);
+	box = AABB(min, max);*/
+	box = AABB::FromCenterAndSize(position, sprite->GetSize());
+}
+
+Gameobject::Gameobject(const Gameobject& other) : context(other.context), sprite(other.sprite), position(other.position), prevPosition(other.position), deltaPosition(0), box(other.box) {
 }
 
 void Gameobject::Tick(float deltaTime) {

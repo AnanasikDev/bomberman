@@ -1,7 +1,5 @@
 #pragma once
 
-//#include "tmpl8math.h"
-
 namespace Tmpl8 {
 
 	class Sprite;
@@ -17,10 +15,10 @@ namespace Tmpl8 {
 		int2 position;
 		int2 deltaPosition;
 		class Game* context;
+		AABB box;
 
 		Gameobject(Game* context) : context(context), sprite(nullptr), position(0, 0), deltaPosition(0, 0), prevPosition(0, 0) {}
-		Gameobject(Game* context, Sprite* sprite, int2 pos) : context(context), position(pos), sprite(sprite), prevPosition(pos), deltaPosition(0) {
-		}
+		Gameobject(Game* context, Sprite* sprite, int2 pos);
 		Gameobject(const Gameobject& other);
 
 		Gameobject& operator=(const Gameobject& other) {

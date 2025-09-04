@@ -22,6 +22,7 @@ public:
 	unsigned int GetFlags() const { return flags; }
 	int GetWidth() const { return width; }
 	int GetHeight() const { return height; }
+	int2 GetSize() const { return int2(width, height); }
 	uint* GetBuffer() const { return surface->pixels; }
 	unsigned int Frames() const { return numFrames; }
 	Surface* GetSurface() const { return surface; }

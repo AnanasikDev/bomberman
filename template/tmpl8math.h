@@ -933,8 +933,86 @@ class aabb
 {
 public:
 	aabb() = default;
-	aabb( __m128 a, __m128 b ) { bmin4 = a, bmax4 = b; bmin[3] = bmax[3] = 0; }
-	aabb( float3 a, float3 b ) { bmin[0] = a.x, bmin[1] = a.y, bmin[2] = a.z, bmin[3] = 0, bmax[0] = b.x, bmax[1] = b.y, bmax[2] = b.z, bmax[3] = 0; }
+	
+	aabb(__m128 a, __m128 b)
+	{
+		bmin4 = a; bmax4 = b;
+		bmin[3] = bmax[3] = 0;
+	}
+
+	aabb(float3 a, float3 b)
+	{
+		bmin[0] = a.x; bmin[1] = a.y;
+		bmin[2] = a.z; bmin[3] = 0;
+
+		bmax[0] = b.x; bmax[1] = b.y;
+		bmax[2] = b.z; bmax[3] = 0;
+	}
+
+	aabb(float3 a, float size)
+	{
+		float hsize = size / 2.0f;
+		bmin[0] = a.x - hsize; bmin[1] = a.y - hsize;
+		bmin[2] = a.z - hsize; bmin[3] = 0;
+
+		bmax[0] = a.x + hsize; bmax[1] = a.y + hsize;
+		bmax[2] = a.z + hsize; bmax[3] = 0;
+	}
+
+	aabb(int3 a, int3 b) {
+		bmin[0] = a.x; bmin[1] = a.y;
+		bmin[2] = a.z; bmin[3] = 0;
+
+		bmax[0] = b.x; bmax[1] = b.y;
+		bmax[2] = b.z; bmax[3] = 0;
+	}
+
+	aabb(int3 a, int size)
+	{
+		float hsize = size / 2.0f;
+		bmin[0] = a.x - hsize; bmin[1] = a.y - hsize;
+		bmin[2] = a.z - hsize; bmin[3] = 0;
+
+		bmax[0] = a.x + hsize; bmax[1] = a.y + hsize;
+		bmax[2] = a.z + hsize; bmax[3] = 0;
+	}
+
+	aabb(float2 a, float2 b) {
+		bmin[0] = a.x; bmin[1] = a.y;
+		bmin[2] = 0; bmin[3] = 0;
+
+		bmax[0] = b.x; bmax[1] = b.y;
+		bmax[2] = 0; bmax[3] = 0;
+	}
+
+	aabb(float2 a, float size)
+	{
+		float hsize = size / 2.0f;
+		bmin[0] = a.x - hsize; bmin[1] = a.y - hsize;
+		bmin[2] = 0; bmin[3] = 0;
+
+		bmax[0] = a.x + hsize; bmax[1] = a.y + hsize;
+		bmax[2] = 0; bmax[3] = 0;
+	}
+
+	aabb(int2 a, int2 b) {
+		bmin[0] = a.x; bmin[1] = a.y;
+		bmin[2] = 0; bmin[3] = 0;
+
+		bmax[0] = b.x; bmax[1] = b.y;
+		bmax[2] = 0; bmax[3] = 0;
+	}
+
+	aabb(int2 a, int size)
+	{
+		float hsize = size / 2.0f;
+		bmin[0] = a.x - hsize; bmin[1] = a.y - hsize;
+		bmin[2] = 0; bmin[3] = 0;
+
+		bmax[0] = a.x + hsize; bmax[1] = a.y + hsize;
+		bmax[2] = 0; bmax[3] = 0;
+	}
+
 	__inline void Reset() { bmin4 = _mm_set_ps1( 1e34f ), bmax4 = _mm_set_ps1( -1e34f ); }
 	bool Contains( const __m128& p ) const
 	{
@@ -1030,3 +1108,21 @@ inline bool badfloat3( const float3 v )
 {
 	return badfloat( v.x + v.y + v.z );
 }
+
+struct AABB {
+	int2 min;
+	int2 max;
+
+	AABB(int2 min, int2 max) : min(min), max(max) { }
+	AABB() : min(0, 0), max(0, 0) { }
+
+	static AABB FromCenterAndSize(int2 center, int2 size);
+	static AABB FromCenterAndSize(int2 center, int size);
+
+	static bool Contains(int2 min, int2 max, int2 pos);
+
+	bool Contains(int2 point) const;
+	bool Intersects(const AABB& other) const;
+
+	int2 operator[](int index) const;
+};

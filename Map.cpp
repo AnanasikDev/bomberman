@@ -12,7 +12,7 @@ namespace Tmpl8 {
 	}
 
 	int Layer::GetTileIDAtPosition(uint2 position) const {
-		return GetTileIDAtIndex(position.x + position.y * MAP_WIDTH);
+		return GetTileIDAtIndex(Map::GetIndexByGridCoordinate(position));
 	}
 
 	const char* Map::ReadBetweenAsString(const char* start, const char* end) {
@@ -156,14 +156,25 @@ namespace Tmpl8 {
 		return true;
 	}
 
-	int2 Map::GetCoordinateByIndex(int index) const {
+	int2 Map::GetGridCoordinateByIndex(int index) {
 		return int2(
-			(index % tileCount.x) * tileSize.x, 
-			(index / tileCount.x) * tileSize.y);
+			(index % MAP_WIDTH) * TILE_WIDTH, 
+			(index / MAP_WIDTH) * TILE_HEIGHT);
 	}
 
-	void Map::Init(uint2 tileCount, uint2 tileSize) {
-		this->tileCount = tileCount;
-		this->tileSize = tileSize;
+	int Map::GetIndexByGridCoordinate(uint2 position) {
+		return position.x + position.y * MAP_WIDTH;
+	}
+
+	int2 Map::GridToWorld(int2 grid) {
+		return int2(grid.x * TILE_WIDTH, grid.y * TILE_HEIGHT);
+	}
+
+	int2 Map::WorldToGrid(int2 world) {
+		return int2(world.x / TILE_WIDTH, world.y / TILE_HEIGHT);
+	}
+
+	bool Map::IsGridPosOnMap(int2 pos) {
+		return AABB::Contains(int2(0, 0), int2(TILE_WIDTH, TILE_HEIGHT), pos);
 	}
 }

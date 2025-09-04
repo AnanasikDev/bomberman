@@ -25,7 +25,13 @@ void Player::Tick(float deltaTime) {
 
 	int2 nextTile = position + int2(delta.x * TILE_WIDTH / 2, delta.y * TILE_HEIGHT / 2);
 
-	if (context->map.layers[0].GetTileIDAtPosition(
+	/*for (int x = -1; x < 2; x++) {
+		for (int y = -1; y < 2; y++) {
+			if (tilepos.x + x)
+		}
+	}*/
+
+	/*if (context->map.layers[0].GetTileIDAtPosition(
 		uint2(
 			clamp(nextTile.x / TILE_WIDTH, 0, MAP_WIDTH), 
 			clamp(nextTile.y / TILE_HEIGHT, 0, MAP_HEIGHT)
@@ -33,7 +39,7 @@ void Player::Tick(float deltaTime) {
 	) != 0) 
 	{
 		return;
-	}
+	}*/
 
 	position = newPosition;
 }
