@@ -74,7 +74,8 @@ public:
 	void Plot( int x, int y, uint c );
 	void LoadFromFile( const char* file );
 	void CopyTo( Surface* dst, int x, int y );
-	void Box( int x1, int y1, int x2, int y2, uint color );
+	void Box( int x1, int y1, int x2, int y2, uint color);
+	void Box( int2 center, int2 size, uint color );
 	void Bar( int x1, int y1, int x2, int y2, uint color );
 	// attributes
 	uint* pixels = 0;

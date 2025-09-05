@@ -33,6 +33,7 @@ namespace Tmpl8 {
 
 		virtual void Tick(float deltaTime);
 		virtual void Render(Surface* surface, int x, int y);
+		void SetPosition(int2 pos);
 
 		int2 GetTilePosition() const;
 	};

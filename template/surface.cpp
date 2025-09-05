@@ -116,6 +116,11 @@ void Surface::Box( int x1, int y1, int x2, int y2, uint c )
 	Line( (float)x1, (float)y1, (float)x1, (float)y2, c );
 }
 
+void Surface::Box(int2 center, int2 size, uint c)
+{
+	Box(center.x - size.x / 2, center.y - size.y / 2, center.x + size.x / 2, center.y + size.y / 2, c);
+}
+
 void Surface::Bar( int x1, int y1, int x2, int y2, uint c )
 {
 	// clipping

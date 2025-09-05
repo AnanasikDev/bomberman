@@ -18,12 +18,13 @@ void Player::Tick(float deltaTime) {
 
 	//context->logicscreen->Box(newPosition.x - 5, newPosition.y - 5, newPosition.x + 5, newPosition.y + 5, 0xFF0000);
 
-	int2 tilepos = GetTilePosition();// *int2(TILE_WIDTH, TILE_HEIGHT);
-	printf("%d, %d\n", tilepos.x, tilepos.y);
+	//int2 tilepos = GetTilePosition();// *int2(TILE_WIDTH, TILE_HEIGHT);
+	int2 tilepos = int2(newPosition.x / TILE_WIDTH, newPosition.y / TILE_HEIGHT);
+	//printf("%d, %d\n", tilepos.x, tilepos.y);
 
-	context->logicscreen->Box(tilepos.x - 8, tilepos.y - 8, tilepos.x + 8, tilepos.y + 8, 0xFF0000);
+	context->logicscreen->Box(tilepos, int2(8), 0xFF0000);
 
-	int2 nextTile = position + int2(delta.x * TILE_WIDTH / 2, delta.y * TILE_HEIGHT / 2);
+	int2 nextTile = position + int2(delta.x, delta.y);
 
 	for (int x = -1; x < 2; x++) {
 		for (int y = -1; y < 2; y++) {
@@ -36,26 +37,55 @@ void Player::Tick(float deltaTime) {
 				tilepos.y + y
 			);
 
+			int2 otherTileWorldPos = Map::GridToWorld(otherTile);
+
 			if (context->map.layers[0].GetTileIDAtGridPosition(otherTile) == 0) {
 				continue;
 			}
 
 			{
-				int2 _tp = int2(otherTile.x, otherTile.y) * int2(TILE_WIDTH, TILE_HEIGHT);
-				context->logicscreen->Box(_tp.x, _tp.y, _tp.x + 16, _tp.y + 16, 0xFF0000);
+				//int2 _tp = int2(otherTile.x, otherTile.y) * int2(TILE_WIDTH, TILE_HEIGHT);
+				int2 _tp = otherTileWorldPos;
+				context->logicscreen->Box(_tp, int2(18, 18), 0xFF0000);
 			}
+			AABB tile = AABB::FromCenterAndSize(
+				otherTileWorldPos,
+				int2(TILE_WIDTH, TILE_HEIGHT));
 
+			context->logicscreen->Box(tile.GetCenter(), int2(20, 20), 0xAAFFFF);
 
-			bool intersect = box.Intersects(
+			AABB intersection = AABB::GetIntersection(box, tile);
+			/*bool intersect = box.Intersects(
 				AABB::FromCenterAndSize(
 					Map::GridToWorld(otherTile), 
 					int2(TILE_WIDTH, TILE_HEIGHT)
 				)
-			);
+			);*/
 
-			if (intersect) {
-				return;
+			float2 size = intersection.GetSize();
+			float2 playerToOther = otherTileWorldPos - position;
+			
+			printf("%f %f\n", playerToOther.x, playerToOther.y);
+
+			if (size.x * size.y <= 10e-5) continue;
+
+			if (size.x < size.y && size.x > 10e-1) {
+				if (playerToOther.x * delta.x > 0) {
+					delta.x = 0;
+				}
 			}
+			else if (size.y < size.x && size.y > 10e-1) {
+				if (playerToOther.y * delta.y > 0) {
+					delta.y = 0;
+				}
+			}
+
+
+			//printf("intersects %d\n", (int)intersect);
+
+			//if (intersect) {
+			//	//return;
+			//}
 
 		}
 	}
@@ -70,7 +100,7 @@ void Player::Tick(float deltaTime) {
 		return;
 	}*/
 
-	position = newPosition;
+	SetPosition(position + delta);
 }
 
 void Player::Render(Surface* surface, int x, int y) {

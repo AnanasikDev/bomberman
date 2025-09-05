@@ -18,6 +18,11 @@ Gameobject::Gameobject(Game* context, Sprite* sprite, int2 pos) : context(contex
 Gameobject::Gameobject(const Gameobject& other) : context(other.context), sprite(other.sprite), position(other.position), prevPosition(other.position), deltaPosition(0), box(other.box) {
 }
 
+void Gameobject::SetPosition(int2 pos) {
+	position = pos;
+	box.SetCenterTo(position);
+}
+
 void Gameobject::Tick(float deltaTime) {
 	//position.x += 1;
 	deltaPosition = position - prevPosition;
@@ -30,6 +35,7 @@ void Gameobject::Render(Surface* surface, int x, int y) {
 		return;
 	}
 	sprite->Draw(surface, x - sprite->GetWidth() / 2, y - sprite->GetHeight() / 2);
+	surface->Box(int2(box.GetCenter()), int2(box.GetSize()), 0x00FFFF);
 	//sprite->DrawScaled(x, y, 200, 200, surface);
 }
 

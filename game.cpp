@@ -69,6 +69,8 @@ void Game::Init()
 		player->InitControls(KeyCode::W, KeyCode::S, KeyCode::D, KeyCode::A);
 		AddGameobject(player);
 	}
+
+	AddGameobject(new Gameobject(this, sheet.GetSpriteWithID(0), int2(0, 0)));
 	//UniquePtr<Player> player = new Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);
 
 	//arr[0] = Player(sheet.GetSpriteWithID(0), int2(0, 0), MAX_LIVES);

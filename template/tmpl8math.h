@@ -25,11 +25,14 @@ namespace Tmpl8
 #pragma warning ( disable: 4201 /* nameless struct / union */ )
 
 // vector type placeholders, carefully matching OpenCL's layout and alignment
+
+struct float2;
 struct ALIGN( 8 ) int2
 {
 	int2() = default;
 	int2( const int a, const int b ) : x( a ), y( b ) {}
 	int2( const int a ) : x( a ), y( a ) {}
+	int2(const float2& in);
 	union { struct { int x, y; }; int cell[2]; };
 	int& operator [] ( const int n ) { return cell[n]; }
 };
@@ -1110,21 +1113,28 @@ inline bool badfloat3( const float3 v )
 }
 
 struct AABB {
-	int2 min;
-	int2 max;
+	float2 min;
+	float2 max;
 
-	AABB(int2 min, int2 max) : min(min), max(max) { }
+	AABB(float2 min, float2 max) : min(min), max(max) { }
 	AABB() : min(0, 0), max(0, 0) { }
 
-	static AABB FromCenterAndSize(int2 center, int2 size);
-	static AABB FromCenterAndSize(int2 center, int size);
+	void SetCenterTo(float2 center);
+	float2 GetCenter() const { return (max + min) / 2.0f; }
+	float2 GetSize() const { return max - min; }
+	float GetArea() const { float2 s = GetSize(); return s.x * s.y; }
+	bool IsEmpty() const { return max.x - min.x == 0 || max.y - min.y == 0; }
 
-	static bool Contains(int2 min, int2 max, int2 pos);
-	static bool Intersects(int2 min1, int2 max1, int2 min2, int2 max2);
+	static AABB FromCenterAndSize(float2 center, float2 size);
+	static AABB FromCenterAndSize(float2 center, float size);
+
+	static bool Contains(float2 min, float2 max, float2 pos);
+	static bool Intersects(float2 min1, float2 max1, float2 min2, float2 max2);
 	static bool Intersects(const AABB& a, const AABB& b);
 
-	bool Contains(int2 point) const;
+	static AABB AABB::GetIntersection(const AABB& a, const AABB& b);
+	bool Contains(float2 pofloat) const;
 	bool Intersects(const AABB& other) const;
 
-	int2 operator[](int index) const;
+	float2 operator[](int index) const;
 };

@@ -167,11 +167,11 @@ namespace Tmpl8 {
 	}
 
 	int2 Map::GridToWorld(int2 grid) {
-		return int2(grid.x * TILE_WIDTH, grid.y * TILE_HEIGHT);
+		return int2(grid.x * TILE_WIDTH + TILE_WIDTH / 2, grid.y * TILE_HEIGHT + TILE_HEIGHT / 2);
 	}
 
 	int2 Map::GridToWorld(uint2 grid) {
-		return int2(grid.x * TILE_WIDTH, grid.y * TILE_HEIGHT);
+		return int2(grid.x * TILE_WIDTH + TILE_WIDTH / 2, grid.y * TILE_HEIGHT + TILE_HEIGHT / 2);
 	}
 
 	int2 Map::WorldToGrid(int2 world) {

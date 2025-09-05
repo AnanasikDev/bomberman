@@ -131,6 +131,10 @@ float noise3D( const float x, const float y, const float z )
 	return noise;
 }
 
+int2::int2(const float2& in) {
+	x = (int)in.x;
+	y = (int)in.y;
+}
 // math implementations
 int3::int3( const float3& a )
 {
@@ -260,53 +264,60 @@ half float_to_half( const float x )
 	return (half)((b & 0x80000000) >> 16 | (e > 112) * ((((e - 112) << 10) & 0x7C00) | m >> 13) | ((e < 113) & (e > 101)) * ((((0x007FF000 + m) >> (125 - e)) + 1) >> 1) | (e > 143) * 0x7FFF); // sign : normalized : denormalized : saturate
 }
 
-bool AABB::Contains(int2 point) const {
-	return point.x >= min.x && point.x < max.x && point.y >= min.y && point.y < max.y;
+void AABB::SetCenterTo(float2 center) {
+	float2 prevCenter = GetCenter();
+	float2 diff = center - prevCenter;
+	min += diff;
+	max += diff;
+}
+
+bool AABB::Contains(float2 pofloat) const {
+	return pofloat.x >= min.x && pofloat.x < max.x && pofloat.y >= min.y && pofloat.y < max.y;
 }
 
 bool AABB::Intersects(const AABB& other) const {
-	for (int i = 0; i < 4; i++) {
+	for (float i = 0; i < 4; i++) {
 		if (Contains(other[i]))
 			return true;
 	}
 	return false;
 }
 
-int2 AABB::operator[](int index) const {
+float2 AABB::operator[](int index) const {
 	switch (index) {
 		case 0:
 			return min;
 			break;
 		case 1:
-			return int2(min.x, max.y);
+			return float2(min.x, max.y);
 			break;
 		case 2:
 			return max;
 			break;
 		case 3:
-			return int2(max.x, min.y);
+			return float2(max.x, min.y);
 			break;
-		return int2();
+		return float2();
 	}
 }
 
-AABB AABB::FromCenterAndSize(int2 center, int2 size) {
+AABB AABB::FromCenterAndSize(float2 center, float2 size) {
 	return AABB
 	(
-		int2(center.x - size.x / 2, center.y - size.y / 2),
-		int2(center.x + size.x / 2, center.y + size.y / 2)
+		float2(center.x - size.x / 2, center.y - size.y / 2),
+		float2(center.x + size.x / 2, center.y + size.y / 2)
 	);
 }
 
-AABB AABB::FromCenterAndSize(int2 center, int size) {
+AABB AABB::FromCenterAndSize(float2 center, float size) {
 	return AABB
 	(
-		int2(center.x - size / 2, center.y - size / 2),
-		int2(center.x + size / 2, center.y + size / 2)
+		float2(center.x - size / 2, center.y - size / 2),
+		float2(center.x + size / 2, center.y + size / 2)
 	);
 }
 
-bool AABB::Contains(int2 min, int2 max, int2 pos) {
+bool AABB::Contains(float2 min, float2 max, float2 pos) {
 	return AABB(min, max).Contains(pos);
 }
 
@@ -314,7 +325,126 @@ bool AABB::Intersects(const AABB& a, const AABB& b) {
 	return a.Intersects(b);
 }
 
-bool AABB::Intersects(int2 min1, int2 max1, int2 min2, int2 max2) {
+bool AABB::Intersects(float2 min1, float2 max1, float2 min2, float2 max2) {
 	return AABB(min1, max1).Intersects(AABB(min2, max2));
 }
 
+AABB AABB::GetIntersection(const AABB& a, const AABB& b) {
+	//AABB res;
+
+	//if (a.GetArea() == 0 || b.GetArea() == 0)
+	//	return AABB();
+
+	//if (a.min.x <= b.min.x) {
+	//	// b left side is to the right of a left side
+
+	//	if (b.min.x >= a.max.x) {
+	//		// b has no X intersection with a (b is to the right of a)
+	//		return AABB();
+	//	}
+
+	//	else if (a.max.x >= b.max.x) {
+	//		// b is fully inside of a on X, hence X intersection equals b width
+	//		res.min.x = b.min.x;
+	//		res.max.x = b.max.x;
+	//	}
+	//	else {
+	//		// b left side is inside a, right side is outside
+	//		res.min.x = b.min.x;
+	//		res.max.x = a.max.x;
+	//	}
+	//}
+
+	//if (a.min.x > b.min.x) {
+	//	// b left side if to the left of a left side
+
+	//	if (b.max.x <= a.min.x) {
+	//		// b has no intersection with a (b is to the left of a)
+	//		return AABB();
+	//	}
+
+	//	else if (b.max.x >= a.max.x) {
+	//		// a is completely inside of b on X
+	//		res.min.x = a.min.x;
+	//		res.max.x = a.max.x;
+	//	}
+
+	//	else {
+	//		// b left side is to the left of a left side, 
+	//		// b right side is also to the left of a right side
+	//		res.min.x = a.min.x;
+	//		res.max.x = b.max.x;
+	//	}
+	//}
+
+
+
+	//if (a.min.y <= b.min.y) {
+	//	// b top side is to the bottom of a top side
+
+	//	if (b.min.y > a.max.y) {
+	//		// b has no Y intersection with a (b is to the bottom of a)
+	//		return AABB();
+	//	}
+
+	//	else if (a.max.y >= b.max.y) {
+	//		// b is fully inside of a on Y, hence Y intersection equals b width
+	//		res.min.y = b.min.y;
+	//		res.max.y = b.max.y;
+	//	}
+	//	else {
+	//		// b top side is inside a, bottom side is outside
+	//		res.min.y = b.min.y;
+	//		res.max.y = a.max.y;
+	//	}
+	//}
+
+	//if (a.min.y > b.min.y) {
+	//	// b top side if to the top of a top side
+
+	//	if (b.max.y < a.min.y) {
+	//		// b has no intersection with a (b is to the top of a)
+	//		return AABB();
+	//	}
+
+	//	else if (b.max.y >= a.max.y) {
+	//		// a is completely inside of b on Y
+	//		res.min.y = a.min.y;
+	//		res.max.y = a.max.y;
+	//	}
+
+	//	else {
+	//		// b top side is to the top of a top side, 
+	//		// b bottom side is also to the top of a bottom side
+	//		res.min.y = a.min.y;
+	//		res.max.y = b.max.y;
+	//	}
+	//}
+	//return res;
+	// Calculate the top-left corner of the intersection
+	float res_min_x = fmax(a.min.x, b.min.x);
+	float res_min_y = fmax(a.min.y, b.min.y);
+
+	// Calculate the bottom-right corner of the intersection
+	float res_max_x = fmin(a.max.x, b.max.x);
+	float res_max_y = fmin(a.max.y, b.max.y);
+
+	AABB intersection;
+
+	// Check if there is a valid intersection area
+	if (res_min_x < res_max_x && res_min_y < res_max_y) {
+		// Valid intersection, create the resulting AABB
+		intersection.min.x = res_min_x;
+		intersection.min.y = res_min_y;
+		intersection.max.x = res_max_x;
+		intersection.max.y = res_max_y;
+	}
+	else {
+		// No overlap, return a zero-sized AABB
+		// (Assuming a default constructor creates a zero-sized AABB)
+		return AABB();
+	}
+
+	return intersection;
+
+}
